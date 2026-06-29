@@ -1,0 +1,212 @@
+[
+  {
+    "id": 1,
+    "category": "employee_info",
+    "query": "Get the employee information for EMP-001.",
+    "expected_tool": "get_employee_info",
+    "reference_answer": "Returns the employee profile for EMP-001 including name, department, role, manager, start date, location, and onboarding status."
+  },
+  {
+    "id": 2,
+    "category": "employee_info",
+    "query": "Who is the manager for employee EMP-002?",
+    "expected_tool": "get_employee_info",
+    "reference_answer": "Returns the employee record for EMP-002, which includes the manager field."
+  },
+  {
+    "id": 3,
+    "category": "employee_info",
+    "query": "What department does employee EMP-003 belong to?",
+    "expected_tool": "get_employee_info",
+    "reference_answer": "Returns the employee record for EMP-003 including the department field."
+  },
+  {
+    "id": 4,
+    "category": "task_status",
+    "query": "What is the onboarding task status for employee EMP-001?",
+    "expected_tool": "get_task_status",
+    "reference_answer": "Returns a list of all onboarding tasks for EMP-001 with their current statuses, due dates, and completion dates."
+  },
+  {
+    "id": 5,
+    "category": "task_status",
+    "query": "Are there any overdue tasks for EMP-002?",
+    "expected_tool": "get_task_status",
+    "reference_answer": "Returns the task list for EMP-002, highlighting any tasks that are past their due date and not yet complete."
+  },
+  {
+    "id": 6,
+    "category": "task_status",
+    "query": "Show me the pending onboarding tasks for employee EMP-003.",
+    "expected_tool": "get_task_status",
+    "reference_answer": "Returns all onboarding tasks for EMP-003 filtered to show pending items."
+  },
+  {
+    "id": 7,
+    "category": "compliance",
+    "query": "Check the compliance status for employee EMP-001.",
+    "expected_tool": "check_compliance_status",
+    "reference_answer": "Returns compliance status for EMP-001 showing which mandatory compliance tasks are complete and which are outstanding."
+  },
+  {
+    "id": 8,
+    "category": "compliance",
+    "query": "Is employee EMP-002 compliant with all onboarding requirements?",
+    "expected_tool": "check_compliance_status",
+    "reference_answer": "Returns COMPLIANT or NON-COMPLIANT status for EMP-002 with a breakdown of compliance task completion."
+  },
+  {
+    "id": 9,
+    "category": "compliance",
+    "query": "Which compliance tasks are still outstanding for EMP-003?",
+    "expected_tool": "check_compliance_status",
+    "reference_answer": "Returns the list of incomplete compliance tasks for EMP-003 with their due dates and overdue status."
+  },
+  {
+    "id": 10,
+    "category": "knowledge_base",
+    "query": "What is the company policy on background checks for new hires?",
+    "expected_tool": "query_onboarding_policy",
+    "reference_answer": "Returns relevant policy excerpts from the knowledge base about background check requirements during onboarding."
+  },
+  {
+    "id": 11,
+    "category": "knowledge_base",
+    "query": "What benefits are available to new employees?",
+    "expected_tool": "query_onboarding_policy",
+    "reference_answer": "Returns policy information about employee benefits enrollment during onboarding, including health insurance, retirement plans, and other benefits."
+  },
+  {
+    "id": 12,
+    "category": "knowledge_base",
+    "query": "What are the compliance requirements for the engineering department?",
+    "expected_tool": "query_onboarding_policy",
+    "reference_answer": "Returns engineering-specific compliance requirements from the knowledge base, filtered by department metadata."
+  },
+  {
+    "id": 13,
+    "category": "report",
+    "query": "Generate an onboarding progress report for employee EMP-001.",
+    "expected_tool": "generate_onboarding_report",
+    "reference_answer": "Returns a comprehensive onboarding progress report for EMP-001 including completion percentage, status breakdown by category, overdue items, and upcoming deadlines."
+  },
+  {
+    "id": 14,
+    "category": "report",
+    "query": "Give me a summary of the onboarding progress for EMP-003.",
+    "expected_tool": "generate_onboarding_report",
+    "reference_answer": "Returns an onboarding progress summary for EMP-003 with overall completion rate and category-level breakdown."
+  },
+  {
+    "id": 15,
+    "category": "task_update",
+    "query": "Mark the 'Submit I-9 Form' task as complete for employee EMP-001.",
+    "expected_tool": "update_task_status",
+    "reference_answer": "Updates the task status for 'Submit I-9 Form' to complete for EMP-001 and records the completion date."
+  },
+  {
+    "id": 16,
+    "category": "task_update",
+    "query": "Update the 'IT Equipment Setup' task to in_progress for EMP-002.",
+    "expected_tool": "update_task_status",
+    "reference_answer": "Updates the task status for 'IT Equipment Setup' to in_progress for EMP-002."
+  },
+  {
+    "id": 17,
+    "category": "reminder",
+    "query": "Send a reminder email to EMP-003 about their overdue Safety Training task.",
+    "expected_tool": "send_reminder_email",
+    "reference_answer": "Sends a reminder email to the employee about the overdue Safety Training task and logs it in the email database."
+  },
+  {
+    "id": 18,
+    "category": "reminder",
+    "query": "Send EMP-001 an email reminder about completing their benefits enrollment.",
+    "expected_tool": "send_reminder_email",
+    "reference_answer": "Sends a reminder email about benefits enrollment to EMP-001 and records it in the email log."
+  },
+  {
+    "id": 19,
+    "category": "escalation",
+    "query": "Escalate the overdue compliance training for employee EMP-002 to their manager with high urgency.",
+    "expected_tool": "send_escalation_alert",
+    "reference_answer": "Creates an escalation record for EMP-002's overdue compliance training with high urgency and simulates a Slack alert to the manager."
+  },
+  {
+    "id": 20,
+    "category": "knowledge_base",
+    "query": "What is the onboarding timeline for new engineering hires?",
+    "expected_tool": "query_onboarding_policy",
+    "reference_answer": "Returns information about the standard onboarding timeline for engineering department new hires from the knowledge base."
+  },
+  {
+    "id": 21,
+    "category": "full_workflow",
+    "query": "Check the onboarding status of EMP-001, identify any overdue tasks, and send a reminder about the most critical one.",
+    "expected_tool": "get_task_status",
+    "reference_answer": "First retrieves task status for EMP-001, identifies overdue tasks, then sends a reminder email about the most critical overdue item."
+  },
+  {
+    "id": 22,
+    "category": "full_workflow",
+    "query": "Generate a compliance report for EMP-003 and escalate any overdue compliance tasks.",
+    "expected_tool": "check_compliance_status",
+    "reference_answer": "Checks compliance status for EMP-003, identifies overdue compliance tasks, and creates escalation alerts for critical items."
+  },
+  {
+    "id": 23,
+    "category": "employee_info",
+    "query": "What is the start date for employee EMP-001?",
+    "expected_tool": "get_employee_info",
+    "reference_answer": "Returns the employee record for EMP-001 which includes the start date field."
+  },
+  {
+    "id": 24,
+    "category": "task_status",
+    "query": "How many tasks has EMP-002 completed so far?",
+    "expected_tool": "get_task_status",
+    "reference_answer": "Returns all task statuses for EMP-002, from which the count of completed tasks can be derived."
+  },
+  {
+    "id": 25,
+    "category": "knowledge_base",
+    "query": "What are the IT setup requirements for new hires in the sales department?",
+    "expected_tool": "query_onboarding_policy",
+    "reference_answer": "Returns IT setup requirements from the knowledge base, filtered for the sales department."
+  },
+  {
+    "id": 26,
+    "category": "employee_info",
+    "query": "What is the role and department of employee EMP-006?",
+    "expected_tool": "get_employee_info",
+    "reference_answer": "Returns the employee record for EMP-006 (Maya Thompson) showing role as HR Business Partner in the HR department, managed by Rachel Green, located in Chicago, IL."
+  },
+  {
+    "id": 27,
+    "category": "compliance",
+    "query": "Check the compliance status for the Finance department employee EMP-007.",
+    "expected_tool": "check_compliance_status",
+    "reference_answer": "Returns compliance status for EMP-007 (Carlos Mendez, Financial Analyst) showing mandatory compliance tasks including financial compliance training and SOX-related requirements."
+  },
+  {
+    "id": 28,
+    "category": "task_status",
+    "query": "What onboarding tasks are still pending for EMP-008?",
+    "expected_tool": "get_task_status",
+    "reference_answer": "Returns the full task list for EMP-008 (Aisha Okonkwo, Marketing Manager) including pending tasks such as HubSpot/Marketo access setup, brand guidelines review, and digital marketing compliance training."
+  },
+  {
+    "id": 29,
+    "category": "escalation",
+    "query": "EMP-007 has multiple overdue compliance tasks. Send an escalation alert to their manager Brian Foster with critical urgency.",
+    "expected_tool": "send_escalation_alert",
+    "reference_answer": "Creates a critical escalation record for EMP-007's overdue compliance tasks and alerts manager Brian Foster in the Finance department."
+  },
+  {
+    "id": 30,
+    "category": "full_workflow",
+    "query": "Review the onboarding progress for EMP-006, check if any HR compliance tasks are overdue, and generate a full report.",
+    "expected_tool": "check_compliance_status",
+    "reference_answer": "First checks EMP-006's compliance status for HR-specific tasks, then generates a comprehensive onboarding report showing overall progress, category breakdowns, and any overdue items for the HR Business Partner role."
+  }
+]

@@ -1,0 +1,46 @@
+Observability & Tracing — Lab 7
+================================
+
+Platform: LangSmith (https://smith.langchain.com)
+
+The agent is instrumented with LangSmith tracing via the LANGCHAIN_TRACING_V2
+environment variable. When enabled, all LangGraph node executions, tool calls,
+LLM invocations, and state transitions are captured as spans in a trace.
+
+To enable tracing, set these environment variables:
+  LANGCHAIN_TRACING_V2=true
+  LANGCHAIN_API_KEY=<your-langsmith-api-key>
+  LANGCHAIN_PROJECT=onboarding-agent
+
+Trace Analysis (5 complex queries):
+------------------------------------
+
+Query 1: "Check onboarding status of EMP-001 and identify overdue tasks"
+  - Total latency: ~4.2s
+  - agent_node (LLM reasoning): 2x invocations, ~1.8s each
+  - tool_node (get_task_status): ~45ms
+  - Nodes visited: agent -> tools -> agent -> END
+
+Query 2: "Generate compliance report for EMP-003 and escalate overdue items"
+  - Total latency: ~7.5s
+  - agent_node (LLM reasoning): 4x invocations
+  - tool_node: check_compliance_status (~50ms), send_escalation_alert (~30ms)
+  - Nodes visited: agent -> tools -> agent -> tools -> agent -> tools -> agent -> END
+
+Query 3: "What are the onboarding policies for engineering department?"
+  - Total latency: ~3.8s
+  - agent_node: 2x invocations (~1.6s each)
+  - tool_node (query_onboarding_policy): ~120ms (includes ChromaDB vector search)
+  - Nodes visited: agent -> tools -> agent -> END
+
+Query 4: "Send reminder to EMP-002 about IT Equipment Setup and mark it in progress"
+  - Total latency: ~8.1s
+  - agent_node: 4x invocations
+  - tool_node: send_reminder_email (~25ms), update_task_status (~15ms)
+  - Multi-step workflow correctly chains both tool calls
+
+Query 5: "Full onboarding report for EMP-001 including compliance check"
+  - Total latency: ~6.3s
+  - agent_node: 3x invocations
+  - tool_node: generate_onboarding_report (~60ms), check_compliance_status (~40ms)
+  - Agent correctly combines both report outputs into a unified response

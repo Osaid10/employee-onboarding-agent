@@ -1,0 +1,53 @@
+# Lab 9 — Docker Compose for multi-service orchestration
+# Services: Onboarding Agent API + ChromaDB Vector Store
+
+version: "3.9"
+
+services:
+  # ── Onboarding Agent API ──────────────────────────────────────────────
+  agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: onboarding-agent
+    ports:
+      - "8000:8000"
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - LLM_MODEL=${LLM_MODEL:-gemini-flash-latest}
+      - CHROMA_HOST=chromadb
+      - CHROMA_PORT=8100
+    volumes:
+      - agent-data:/app/data
+      - checkpoint-data:/app/checkpoints
+    depends_on:
+      - chromadb
+    networks:
+      - agent-network
+    restart: unless-stopped
+
+  # ── ChromaDB Vector Database ──────────────────────────────────────────
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: onboarding-chromadb
+    ports:
+      - "8100:8000"
+    volumes:
+      - chroma-data:/chroma/chroma
+    networks:
+      - agent-network
+    restart: unless-stopped
+
+# ── Volumes (persistent storage) ──────────────────────────────────────
+volumes:
+  agent-data:
+    driver: local
+  checkpoint-data:
+    driver: local
+  chroma-data:
+    driver: local
+
+# ── Networks ──────────────────────────────────────────────────────────
+networks:
+  agent-network:
+    driver: bridge

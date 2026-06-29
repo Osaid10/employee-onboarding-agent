@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python analyze.py)",
+      "Bash(where 7z)",
+      "Bash(where unrar *)",
+      "Read(//c/Program Files/7-Zip/**)",
+      "Bash(Get-Command 7z, unrar, Expand-Archive -ErrorAction SilentlyContinue)",
+      "Read(//c/Program Files/**)",
+      "PowerShell(Get-Command 7z -ErrorAction SilentlyContinue)"
+    ]
+  }
+}

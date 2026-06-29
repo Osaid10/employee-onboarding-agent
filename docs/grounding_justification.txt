@@ -1,0 +1,35 @@
+Why Does the Onboarding Agent Need RAG Grounding Instead of Relying on Pre-Trained Knowledge?
+==============================================================================================
+
+1. PRIVATE COMPANY DATA: Our onboarding policies, health plan costs ($185/mo PPO Standard,
+   $245/mo PPO Premium, $120/mo HDHP), PTO accrual rules (15 days for 0-2 years, 20 days
+   for 3-5 years), and compliance deadlines are internal to the organization. No LLM has
+   seen this data during pre-training -- it simply does not exist in public corpora.
+
+2. LEGAL COMPLIANCE ACCURACY: The I-9 form must be completed by Day 1 of employment per
+   federal law. Health insurance enrollment has a hard 30-day window. These are legally
+   binding deadlines where approximate or outdated answers create real liability. A generic
+   LLM might hallucinate a "60-day window" or omit state-specific requirements entirely.
+
+3. STATE-SPECIFIC TAX REQUIREMENTS: Tax withholding forms vary by state (W-4 federal,
+   IT-2104 for New York, DE-4 for California). These forms and their requirements change
+   with legislative updates. Pre-trained models have a knowledge cutoff and cannot track
+   regulatory changes in real time.
+
+4. PROPRIETARY DEPARTMENT PROCESSES: Engineering uses Docker + GitHub Enterprise + specific
+   CI/CD pipelines. Marketing uses HubSpot + Figma + a custom brand portal. These internal
+   toolchains and workflows are proprietary -- an LLM cannot guess which tools a company
+   uses or how they are configured.
+
+5. REAL-TIME EMPLOYEE DATA: The agent must look up actual employee records (start date,
+   department assignment, task completion status) from a live database. This is dynamic,
+   per-employee data that changes daily. No static training set can provide this.
+
+6. AUDITABILITY: When the agent tells an employee "your I-9 is overdue," that statement
+   must be traceable to a specific data source and retrieval step. RAG provides this
+   provenance chain. A pure LLM response has no verifiable source attribution, which is
+   unacceptable for HR compliance workflows.
+
+In summary, the agent operates in a domain where correctness is non-negotiable, data is
+private and dynamic, and every response must be grounded in retrievable, auditable sources.
+Pre-trained knowledge alone is insufficient and potentially dangerous for this use case.

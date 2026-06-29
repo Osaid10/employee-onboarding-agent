@@ -1,0 +1,31 @@
+__pycache__/
+*.pyc
+.env
+chroma_db/
+chroma_db_university/
+hris.db
+*.db
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.egg-info/
+.venv/
+venv/
+*.log
+
+# Course / exam materials (do not publish)
+AI407_Final_Exam.pdf
+2.A1407_Manual_Detail.pdf
+labs_open_ended.pdf
+final_exam/
+final report/
+
+# Bundled data / personal files
+Data_share.rar
+data/
+resume_osaid.pdf
+docs/resume/
+.claude/
+
+# Course lab / assignment handouts (do not publish)
+tasks/*.pdf

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Onboarding Agent</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+  <!-- Toast container -->
+  <div id="toast-container"></div>
+
+  <!-- Sidebar -->
+  <nav id="sidebar">
+    <div class="sidebar-brand">
+      <i class="fas fa-robot"></i>
+      <span>OB Agent</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#" data-page="dashboard" class="active"><i class="fas fa-chart-pie"></i> <span>Dashboard</span></a></li>
+      <li><a href="#" data-page="employees"><i class="fas fa-users"></i> <span>Employees</span></a></li>
+      <li><a href="#" data-page="escalations"><i class="fas fa-exclamation-triangle"></i> <span>Escalations</span></a></li>
+      <li><a href="#" data-page="emails"><i class="fas fa-envelope"></i> <span>Email Logs</span></a></li>
+      <li><a href="#" data-page="chat"><i class="fas fa-comments"></i> <span>AI Chat</span></a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <span class="model-badge"><i class="fas fa-microchip"></i> <span>Gemini 2.0 Flash</span></span>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main id="content">
+
+    <!-- Dashboard Page -->
+    <div id="page-dashboard" class="page active">
+      <div class="page-header">
+        <h1>Dashboard</h1>
+        <p class="subtitle">Onboarding overview at a glance</p>
+      </div>
+      <div id="stats-grid" class="stats-grid"></div>
+      <div class="dashboard-row">
+        <div class="card" id="employee-summary-card">
+          <h3><i class="fas fa-users"></i> Employee Progress</h3>
+          <div id="employee-progress-list" class="progress-list"></div>
+        </div>
+        <div class="card" id="recent-escalations-card">
+          <h3><i class="fas fa-bell"></i> Recent Escalations</h3>
+          <div id="recent-escalations-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Employees Page -->
+    <div id="page-employees" class="page">
+      <div class="page-header">
+        <h1>Employees</h1>
+        <p class="subtitle">Onboarding progress for all employees</p>
+      </div>
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" id="employee-search" placeholder="Search by name, ID, department, or role...">
+      </div>
+      <div id="dept-filter-chips" class="filter-chips"></div>
+      <div id="employees-grid" class="employees-grid"></div>
+    </div>
+
+    <!-- Employee Detail -->
+    <div id="page-employee-detail" class="page">
+      <div class="page-header">
+        <button class="btn-back" onclick="navigateTo('employees')"><i class="fas fa-arrow-left"></i> Back</button>
+        <h1 id="detail-name"></h1>
+        <p class="subtitle" id="detail-subtitle"></p>
+      </div>
+      <div id="detail-content"></div>
+    </div>
+
+    <!-- Escalations Page -->
+    <div id="page-escalations" class="page">
+      <div class="page-header">
+        <h1>Escalations</h1>
+        <p class="subtitle">Active and resolved escalation alerts</p>
+      </div>
+      <div id="esc-filter-tabs" class="filter-tabs">
+        <button class="filter-tab active" data-filter="all">All</button>
+        <button class="filter-tab" data-filter="open">Open</button>
+        <button class="filter-tab" data-filter="resolved">Resolved</button>
+        <button class="filter-tab" data-filter="critical">Critical</button>
+        <button class="filter-tab" data-filter="high">High</button>
+      </div>
+      <div id="escalations-list" class="table-container"></div>
+    </div>
+
+    <!-- Emails Page -->
+    <div id="page-emails" class="page">
+      <div class="page-header">
+        <h1>Email Logs</h1>
+        <p class="subtitle">Communication audit trail</p>
+      </div>
+      <div id="emails-list" class="table-container"></div>
+    </div>
+
+    <!-- Chat Page -->
+    <div id="page-chat" class="page">
+      <div class="page-header">
+        <h1>AI Chat</h1>
+        <div class="chat-controls">
+          <div class="chat-mode-toggle">
+            <button class="mode-btn active" data-mode="single"><i class="fas fa-robot"></i> Single Agent</button>
+            <button class="mode-btn" data-mode="multi"><i class="fas fa-people-arrows"></i> Multi Agent</button>
+          </div>
+          <div class="chat-session-info">
+            <span id="thread-id-label" class="thread-label"></span>
+            <button class="btn-new-session" onclick="newChatSession()" title="Start new session">
+              <i class="fas fa-plus"></i> New Session
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="chat-container">
+        <div id="chat-messages">
+          <div class="chat-welcome">
+            <i class="fas fa-robot"></i>
+            <h3>Onboarding Agent</h3>
+            <p>Ask me about employee onboarding status, compliance, policies, or request actions like sending reminders and escalations.</p>
+            <div class="quick-prompts">
+              <button class="quick-prompt" onclick="sendQuickPrompt(this)">What is the status of EMP-003?</button>
+              <button class="quick-prompt" onclick="sendQuickPrompt(this)">Check compliance for EMP-004</button>
+              <button class="quick-prompt" onclick="sendQuickPrompt(this)">Generate onboarding report for EMP-007</button>
+              <button class="quick-prompt" onclick="sendQuickPrompt(this)">What are the SOX compliance requirements for Finance?</button>
+              <button class="quick-prompt" onclick="sendQuickPrompt(this)">Send a reminder to EMP-003 about overdue tasks</button>
+              <button class="quick-prompt" onclick="sendQuickPrompt(this)">What is the health insurance enrollment deadline?</button>
+            </div>
+          </div>
+        </div>
+        <div id="chat-input-area">
+          <textarea id="chat-input" placeholder="Ask about employees, tasks, compliance, or policies... (Enter to send)" rows="1"></textarea>
+          <button id="chat-send" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

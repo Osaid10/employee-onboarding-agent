@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c ':*)",
+      "Bash(pip install:*)",
+      "Bash(xargs wc:*)",
+      "Bash(xargs ls:*)",
+      "Bash(pip show:*)",
+      "PowerShell(& \"C:\\\\Program Files\\\\WinRAR\\\\UnRAR.exe\" x \"C:\\\\Users\\\\Hassaan\\\\Desktop\\\\Files-3\\\\Osaid Capstone\\\\Data_share.rar\" \"C:\\\\Users\\\\Hassaan\\\\Desktop\\\\Files-3\\\\Osaid Capstone\\\\data\\\\university\\\\\" -y 2>&1)",
+      "Bash(python -c \"import duckduckgo_search; print\\('duckduckgo_search available'\\)\")",
+      "Bash(python -c \"import duckduckgo_search; print\\('OK'\\)\")",
+      "Bash(python -c \"from langchain_text_splitters import RecursiveCharacterTextSplitter; print\\('OK'\\)\")",
+      "Bash(python ingest_university.py)",
+      "Bash(python self_rag_agent.py --query \"Hello! What can you help me with?\")",
+      "Bash(python -c \"from src.config import LLM_MODEL; print\\(LLM_MODEL\\)\")",
+      "Bash(python self_rag_agent.py --query \"What are the prerequisites for CS-302 Machine Learning?\")",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\Hassaan\\\\Desktop\\\\Files-3\\\\Osaid Capstone\" -Force)",
+      "Bash(Select-Object Name)",
+      "Bash(Format-Table -HideTableHeaders)",
+      "Bash(python final_exam/generate_reports.py)",
+      "Bash(Get-ChildItem \"c:\\\\Users\\\\Hassaan\\\\Desktop\\\\Files-3\\\\Osaid Capstone\\\\final_exam\" -Recurse)",
+      "Bash(Select-Object FullName, Length)",
+      "Bash(Format-Table -AutoSize)",
+      "PowerShell(Get-ChildItem \"c:\\\\Users\\\\Hassaan\\\\Desktop\\\\Files-3\\\\Osaid Capstone\\\\final_exam\" -Recurse | Select-Object FullName, @{N='KB';E={[math]::Round\\($_.Length/1KB,1\\)}} | Format-Table -AutoSize)",
+      "PowerShell(winget install MiKTeX.MiKTeX --silent --accept-package-agreements --accept-source-agreements)",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"c:\\\\Users\\\\Hassaan\\\\Desktop\\\\Files-3\\\\Osaid Capstone\\\\final report\")",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"c:\\\\Users\\\\Hassaan\\\\Desktop\\\\Files-3\\\\Osaid Capstone\\\\reports\")",
+      "Bash(python reports/generate_ieee_reports.py)"
+    ]
+  }
+}

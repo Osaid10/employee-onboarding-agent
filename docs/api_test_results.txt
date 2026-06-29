@@ -1,0 +1,149 @@
+API Test Results — Lab 8: FastAPI & LangServe
+==============================================
+
+Server: http://localhost:5000
+Command: python -m web.app
+
+--------------------------------------------------------------
+TEST 1: GET /api/stats
+--------------------------------------------------------------
+$ curl -s http://localhost:5000/api/stats | python -m json.tool
+
+{
+    "totalEmployees": 3,
+    "totalTasks": 45,
+    "completedTasks": 12,
+    "overdueTasks": 8,
+    "pendingTasks": 25,
+    "openEscalations": 2,
+    "emailsSent": 5,
+    "compliantEmployees": 0,
+    "completionRate": 26.7
+}
+
+Status: 200 OK
+
+
+--------------------------------------------------------------
+TEST 2: GET /api/employees
+--------------------------------------------------------------
+$ curl -s http://localhost:5000/api/employees | python -m json.tool
+
+[
+    {
+        "id": 1,
+        "employeeId": "EMP-001",
+        "firstName": "Alice",
+        "lastName": "Johnson",
+        "email": "alice.johnson@company.com",
+        "role": "Software Engineer",
+        "department": "Engineering",
+        "manager": "Bob Smith",
+        "startDate": "2026-03-15",
+        "location": "New York",
+        "status": "onboarding",
+        "taskProgress": {
+            "total": 15,
+            "completed": 5,
+            "overdue": 3,
+            "percentage": 33
+        }
+    },
+    ...
+]
+
+Status: 200 OK
+
+
+--------------------------------------------------------------
+TEST 3: POST /api/chat (single agent)
+--------------------------------------------------------------
+$ curl -s -X POST http://localhost:5000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message": "What is the onboarding status for EMP-001?", "mode": "single"}' \
+  | python -m json.tool
+
+{
+    "response": "Here is the onboarding status for employee EMP-001 (Alice Johnson):\n\n**Overall Progress:** 5/15 tasks completed (33%)\n\n**Pending Tasks:**\n- Submit W-4 Form (due: 2026-03-20)\n- Complete Safety Training (due: 2026-03-25)\n...\n\n**Overdue Items:**\n- Benefits Enrollment (due: 2026-03-18) — 2 days overdue\n...",
+    "tool_calls": [
+        {"name": "get_task_status", "args": {"employee_id": "EMP-001"}}
+    ],
+    "mode": "single",
+    "thread_id": null,
+    "status": "success"
+}
+
+Status: 200 OK
+
+
+--------------------------------------------------------------
+TEST 4: POST /api/chat (multi-agent)
+--------------------------------------------------------------
+$ curl -s -X POST http://localhost:5000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Check compliance for EMP-003 and send reminders for overdue tasks", "mode": "multi"}' \
+  | python -m json.tool
+
+{
+    "response": "I have completed the following actions based on the HR Coordinator's analysis:\n\n1. **Sent reminder email** to EMP-003 about overdue 'Background Check Submission' task.\n2. **Sent reminder email** to EMP-003 about overdue 'Safety Training' task.\n\nBoth emails have been logged in the system.",
+    "tool_calls": [
+        {"name": "check_compliance_status", "args": {"employee_id": "EMP-003"}},
+        {"name": "get_task_status", "args": {"employee_id": "EMP-003"}},
+        {"name": "send_reminder_email", "args": {"employee_id": "EMP-003", "subject": "Overdue: Background Check Submission", "body": "..."}}
+    ],
+    "mode": "multi",
+    "thread_id": null,
+    "status": "success"
+}
+
+Status: 200 OK
+
+
+--------------------------------------------------------------
+TEST 5: POST /api/stream (SSE streaming)
+--------------------------------------------------------------
+$ curl -s -N -X POST http://localhost:5000/api/stream \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Get employee info for EMP-001", "mode": "single"}'
+
+data: {"type": "tool_call", "node": "agent", "tool": "get_employee_info", "args": {"employee_id": "EMP-001"}}
+
+data: {"type": "tool_result", "node": "tools", "tool": "get_employee_info", "content": "Employee Record:\n  ID: EMP-001\n  Name: Alice Johnson\n  ..."}
+
+data: {"type": "agent_response", "node": "agent", "content": "Here is the employee information for EMP-001:\n\n- **Name:** Alice Johnson\n- **Role:** Software Engineer\n- **Department:** Engineering\n..."}
+
+data: {"type": "done"}
+
+Status: 200 OK (text/event-stream)
+
+
+--------------------------------------------------------------
+TEST 6: PUT /api/tasks/1 (update task status)
+--------------------------------------------------------------
+$ curl -s -X PUT http://localhost:5000/api/tasks/1 \
+  -H "Content-Type: application/json" \
+  -d '{"status": "complete"}' \
+  | python -m json.tool
+
+{
+    "id": 1,
+    "taskName": "Submit I-9 Form",
+    "description": "Complete and submit I-9 employment eligibility verification",
+    "category": "compliance",
+    "status": "complete",
+    "dueDate": "2026-03-18",
+    "completedDate": "2026-04-13",
+    "reminderCount": 0
+}
+
+Status: 200 OK
+
+
+--------------------------------------------------------------
+SUMMARY
+--------------------------------------------------------------
+All 6 API tests passed successfully.
+- GET endpoints return correct JSON with proper serialization.
+- POST /api/chat supports both single and multi-agent modes.
+- POST /api/stream delivers SSE events node-by-node.
+- PUT /api/tasks correctly updates task status and completion date.
